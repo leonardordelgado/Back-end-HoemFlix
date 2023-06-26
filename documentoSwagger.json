@@ -1,0 +1,241 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "API de filmes e séries HomeFilx",
+    "description": "API para gerenciar o crud e a entrada de usuários ",
+    "contact": {
+      "name": "Leonardo R delgado",
+      "email": "Leoresende2010@hotmail.com",
+      "url": "www.leonardodelgado.com"
+    },
+    "license": {
+      "name": "Licença GPLv3",
+      "url": "https://www.gnu.org/licenses/gpl-3.0.html"
+    },
+    "version": "0.0.2"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000",
+      "description": "API FILMES"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Filmes",
+      "description": "Everything about your Pets",
+      "externalDocs": {
+        "description": "Find out more",
+        "url": "http://localhost:3000"
+      }
+    }
+  ],
+  "paths": {
+    "/": {
+      "get": {
+        "tags": [
+          "Filmes"
+        ],
+        "summary": "Busca todos os filmes cadastrados",
+        "description": "Ao fazer esta requisição ele desve obter como resposta um objeto json com a lista de todos os filmes",
+        "operationId": "findFilmes",
+        "responses": {
+          "200": {
+            "description": "Sucesso",
+            "content": {
+              "aplication/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/respostaSucesso"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/erro"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Filmes"
+        ],
+        "summary": "Insere os filmes no banco de dados",
+        "description": "necessario preencher todos os parametros",
+        "operationId": "insertFilmes",
+        "requestBody": {
+          "description": "todas os parametros são obrigatorios",
+          "content": {
+            "aplication/json": {
+              "schema": {
+                "type": "object",
+                "$ref": "#/components/schemas/insert"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Sucesso",
+            "content": {
+              "aplication/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/respostaSucesso"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/erro"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/{id}": {
+      "delete": {
+        "tags": [
+          "Filmes"
+        ],
+        "summary": "Deleta filme usando o id",
+        "description": "Ao enviar o id ele faz uma busca no mongo e deleta o filme refente ao id",
+        "operationId": "deleteFilmes",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Informe o id que foi gerado pelo mongo db",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/delete"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Erro",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/delete"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "respostaSucesso": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string"
+          },
+          "titulo": {
+            "type": "string"
+          },
+          "sinopse": {
+            "type": "string"
+          },
+          "classificacao": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          },
+          "poster": {
+            "type": "string"
+          },
+          "genero": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "insert": {
+        "properties": {
+          "titulo": {
+            "type": "string"
+          },
+          "sinopse": {
+            "type": "string"
+          },
+          "classificacao": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          },
+          "poster": {
+            "type": "string"
+          },
+          "genero": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "erro": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          },
+          "error": {
+            "type": "object"
+          }
+        }
+      },
+      "delete": {
+        "properties": {
+          "message": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}
